@@ -9,18 +9,37 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
-
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.DriveConstants.*;
+import com.ctre.phoenix6.hardware.Pigeon2;
 
 public class CANDriveSubsystem extends SubsystemBase {
+
   private final SparkMax leftLeader;
   private final SparkMax leftFollower;
   private final SparkMax rightLeader;
   private final SparkMax rightFollower;
+  Pigeon2 m_gyro = new Pigeon2(0);
+  //Instantiate encoders later error present
+  //Encoder m_leftEncoder = new Encoder();
+  //Encoder m_rightEncoder = new Encoder();
 
+  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(27));
   private final DifferentialDrive drive;
+  ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0,0);
+  DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
+  double leftVelocity;
+  double rightVelocity;
+  //Encoders must be defined for odometry object
+  //DifferentialDriveOdometry m_odemetry = new DifferentialDriveOdometry(m_gyro.getRotation2d(), m_leftEncoder.getDistance(), m_rightEncoder.getDistance(), 13.5, new Rotation2d());
 
   public CANDriveSubsystem() {
     // create brushed motors for drive
@@ -39,7 +58,6 @@ public class CANDriveSubsystem extends SubsystemBase {
     rightLeader.setCANTimeout(250);
     leftFollower.setCANTimeout(250);
     rightFollower.setCANTimeout(250);
-
     // Create the configuration to apply to motors. Voltage compensation
     // helps the robot perform more similarly on different
     // battery voltages (at the cost of a little bit of top speed on a fully charged
@@ -72,6 +90,14 @@ public class CANDriveSubsystem extends SubsystemBase {
 
   public void driveArcade(double xSpeed, double zRotation) {
     drive.arcadeDrive(xSpeed, zRotation);
+    leftVelocity = wheelSpeeds.leftMetersPerSecond;
+    rightVelocity = wheelSpeeds.rightMetersPerSecond;
+
+
+    //TODO create chassisspeeds from xspeed and zrotation
+    //TODO feed that chassisspeeds to kinematics object to create "wheelspeeds"
+    //TODO set wheels to those wheelspeeds
+
   }
 
 }
