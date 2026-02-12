@@ -30,7 +30,6 @@ public class RobotContainer {
   // The robot's subsystems
   private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
   private final CANFuelSubsystem fuelSubsystem = new CANFuelSubsystem();
-
   // The driver's controller
   private final CommandXboxController driverController = new CommandXboxController(
       DRIVER_CONTROLLER_PORT);
@@ -67,10 +66,11 @@ public class RobotContainer {
     driverController.leftBumper().whileTrue(new Intake(fuelSubsystem));
     // While the right bumper on the operator controller is held, spin up for 1
     // second, then launch fuel. When the button is released, stop.
-    driverController.rightBumper().whileTrue(new SpinUp(fuelSubsystem));
+    driverController.leftTrigger().whileTrue(new SpinUp(fuelSubsystem));
     driverController.rightTrigger().whileTrue(new Launch(fuelSubsystem));
     // While the A button is held on the operator controller, eject fuel back out
     // the intake
+    driverController.rightBumper().onTrue(driveSubsystem.runOnce(()->{driveSubsystem.toggleFlip();}));
     driverController.a().whileTrue(new Eject(fuelSubsystem));
 
     // Set the default command for the drive subsystem to the command provided by
