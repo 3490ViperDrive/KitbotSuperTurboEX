@@ -22,7 +22,7 @@ import static frc.robot.Constants.DriveConstants.*;
 import com.ctre.phoenix6.hardware.Pigeon2;
 
 public class CANDriveSubsystem extends SubsystemBase {
-
+  public boolean isFlipped;
   private final SparkMax leftLeader;
   private final SparkMax leftFollower;
   private final SparkMax rightLeader;
@@ -43,6 +43,7 @@ public class CANDriveSubsystem extends SubsystemBase {
 
   public CANDriveSubsystem() {
     // create brushed motors for drive
+    isFlipped = false;
     leftLeader = new SparkMax(LEFT_LEADER_ID, MotorType.kBrushed);
     leftFollower = new SparkMax(LEFT_FOLLOWER_ID, MotorType.kBrushed);
     rightLeader = new SparkMax(RIGHT_LEADER_ID, MotorType.kBrushed);
@@ -89,15 +90,21 @@ public class CANDriveSubsystem extends SubsystemBase {
   }
 
   public void driveArcade(double xSpeed, double zRotation) {
-    drive.arcadeDrive(xSpeed, zRotation);
+    if (isFlipped = false){
+      drive.arcadeDrive(xSpeed, zRotation);
+    } else {
+      drive.arcadeDrive(-xSpeed, -zRotation);
+    }
+    
     leftVelocity = wheelSpeeds.leftMetersPerSecond;
     rightVelocity = wheelSpeeds.rightMetersPerSecond;
-
-
     //TODO create chassisspeeds from xspeed and zrotation
     //TODO feed that chassisspeeds to kinematics object to create "wheelspeeds"
     //TODO set wheels to those wheelspeeds
 
+  }
+  public void toggleFlip(){
+    isFlipped = !isFlipped;
   }
 
 }
