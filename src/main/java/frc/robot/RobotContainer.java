@@ -16,6 +16,7 @@ import static frc.robot.Constants.OperatorConstants.*;
 //import frc.robot.commands.Launch;
 //import frc.robot.commands.SpinUp;
 import frc.robot.commands.*;
+import frc.robot.subsystems.CANClimbSubystem;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANFuelSubsystem;
 
@@ -30,6 +31,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final CANDriveSubsystem driveSubsystem = new CANDriveSubsystem();
   private final CANFuelSubsystem fuelSubsystem = new CANFuelSubsystem();
+  private final CANClimbSubystem climbSubsystem = new CANClimbSubystem();
   // The driver's controller
   private final CommandXboxController driverController = new CommandXboxController(
       DRIVER_CONTROLLER_PORT);
@@ -67,11 +69,16 @@ public class RobotContainer {
     // While the right bumper on the operator controller is held, spin up for 1
     // second, then launch fuel. When the button is released, stop.
     driverController.leftTrigger().whileTrue(new SpinUp(fuelSubsystem));
-    driverController.rightTrigger().whileTrue(new Launch(fuelSubsystem));
+    driverController.rightTrigger().whileTrue(new LaunchSequence(fuelSubsystem));
     // While the A button is held on the operator controller, eject fuel back out
     // the intake
     driverController.rightBumper().onTrue(driveSubsystem.runOnce(()->{driveSubsystem.toggleFlip();}));
     driverController.a().whileTrue(new Eject(fuelSubsystem));
+    
+    //7hrs day
+    driverController.x().onTrue(new ToggleClimber(climbSubsystem));
+
+
 
     // Set the default command for the drive subsystem to the command provided by
     // factory with the values provided by the joystick axes on the driver
@@ -90,6 +97,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return autoChooser.getSelected();
+    //return autoChooser.getSelected();
+    return new LeftSideAuto(driveSubsystem, fuelSubsystem, climbSubsystem);
   }
 }
