@@ -45,6 +45,8 @@ public final class Constants {
     public static final double LAUNCHING_LAUNCHER_VOLTAGE = -10;
     public static final double SPIN_UP_FEEDER_VOLTAGE = 10;
     public static final double SPIN_UP_SECONDS = 1.75;
+
+    public static final double MINIMUM_FLYWHEEL_VELOCITY = 3000;
   }
 
   public static final class OperatorConstants {

@@ -77,6 +77,7 @@ public class RobotContainer {
     
     //7hrs day
     driverController.x().onTrue(new ToggleClimber(climbSubsystem));
+    driverController.y().onTrue(new RetractSolenoid(climbSubsystem));
 
 
 
@@ -101,3 +102,4 @@ public class RobotContainer {
     return new LeftSideAuto(driveSubsystem, fuelSubsystem, climbSubsystem);
   }
 }
+ 
