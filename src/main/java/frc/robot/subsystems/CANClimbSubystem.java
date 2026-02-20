@@ -10,28 +10,23 @@ public class CANClimbSubystem extends SubsystemBase{
 
     private Solenoid climberSolenoid;
     //private Compressor compressor;
-    private boolean aaaa = false;
 
     public CANClimbSubystem(){
-        //instantiate object using id
-        //climberSolenoid = new Solenoid(8,PneumaticsModuleType.REVPH, 0);
         climberSolenoid = new Solenoid(8,PneumaticsModuleType.REVPH, 0);
         //compressor = new Compressor(8, PneumaticsModuleType.REVPH);
         //compressor.enableDigital();
-        //compressor.enableHybrid(50, 120);
-        //compressor.enableHybrid(60,110);
-        //compressor.enableAnalog(60, 110);
-
+        //compressor.enableHybrid(50, 110);
+        //compressor.enableHybrid(50,110);
+        //compressor.enableAnalog(50, 110);
         climberSolenoid.set(false);
     }
 
     public void toggleSolenoid(){
-        //toggle the solenoid 
         climberSolenoid.set(true);
-        //aaaa = !aaaa;
     }
 
     public void retractSolenoid(){
         climberSolenoid.set(false);
     }
+    //This shouldn't have to live in two seperate function calls, but it works
 }

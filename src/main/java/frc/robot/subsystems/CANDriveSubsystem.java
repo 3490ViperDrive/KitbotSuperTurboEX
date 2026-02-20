@@ -96,8 +96,8 @@ public class CANDriveSubsystem extends SubsystemBase {
       drive.arcadeDrive(-xSpeed, -zRotation);
     }
     
-    leftVelocity = wheelSpeeds.leftMetersPerSecond;
-    rightVelocity = wheelSpeeds.rightMetersPerSecond;
+    //leftVelocity = wheelSpeeds.leftMetersPerSecond;
+    //rightVelocity = wheelSpeeds.rightMetersPerSecond;
     //TODO create chassisspeeds from xspeed and zrotation
     //TODO feed that chassisspeeds to kinematics object to create "wheelspeeds"
     //TODO set wheels to those wheelspeeds
