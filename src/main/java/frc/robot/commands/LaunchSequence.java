@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import static frc.robot.Constants.FuelConstants.MINIMUM_FLYWHEEL_VELOCITY;
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.FuelConstants;
 import frc.robot.subsystems.CANFuelSubsystem;
@@ -18,6 +20,7 @@ public class LaunchSequence extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new SpinUp(fuelSubsystem).withTimeout(FuelConstants.SPIN_UP_SECONDS),
+        //new SpinUp(fuelSubsystem).until(()-> fuelSubsystem.getFlywheelVelocity() >= MINIMUM_FLYWHEEL_VELOCITY),
         new Launch(fuelSubsystem));
   }
 }
