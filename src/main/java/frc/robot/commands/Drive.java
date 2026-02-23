@@ -13,8 +13,12 @@ import frc.robot.subsystems.CANDriveSubsystem;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Drive extends Command {
   /** Creates a new Drive. */
+  double invertSign;
+  double leftYNumberV;
+  double rightXNumberV;
   CANDriveSubsystem driveSubsystem;
   CommandXboxController controller;
+  
 
   public Drive(CANDriveSubsystem driveSystem, CommandXboxController driverController) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -35,7 +39,14 @@ public class Drive extends Command {
   // controllable.
   @Override
   public void execute() {
-    driveSubsystem.driveArcade(-controller.getLeftY() * DRIVE_SCALING, -controller.getRightX() * ROTATION_SCALING);
+    invertSign = 1;
+    leftYNumberV = controller.getLeftY();
+    rightXNumberV = controller.getRightX();
+    if(leftYNumberV < 0 || rightXNumberV < 0){
+      invertSign = -1;
+    }
+    driveSubsystem.driveArcade(-controller.getLeftY() * -controller.getLeftY() * DRIVE_SCALING * invertSign,
+     -controller.getRightX() * -controller.getRightX() * ROTATION_SCALING * invertSign);
   }
 
   // Called once the command ends or is interrupted.

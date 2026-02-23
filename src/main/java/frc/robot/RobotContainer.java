@@ -45,9 +45,8 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    SmartDashboard.putBoolean("Climb1?", false);
-    SmartDashboard.putBoolean("Climb2?", false);
-    SmartDashboard.putBoolean("Shoot?", false);
+    SmartDashboard.putBoolean("Climb", false);
+    SmartDashboard.putBoolean("Shoot", false);
     configureBindings();
 
     // Set the options to show up in the Dashboard for selecting auto modes. If you
@@ -83,9 +82,7 @@ public class RobotContainer {
     //7hrs day
     driverController.x().onTrue(new ToggleClimber(climbSubsystem));
     driverController.y().onTrue(new RetractSolenoid(climbSubsystem));
-
-
-
+    
     // Set the default command for the drive subsystem to the command provided by
     // factory with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the
