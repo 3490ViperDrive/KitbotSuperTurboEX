@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import static frc.robot.Constants.OperatorConstants.*;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.CANDriveSubsystem;
@@ -13,10 +14,12 @@ import frc.robot.subsystems.CANDriveSubsystem;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Drive extends Command {
   /** Creates a new Drive. */
-  double invertSignLY, invertSignRX;
+  double fixSign;
+  double joyLeftY, joyRightX;
 
   CANDriveSubsystem driveSubsystem;
   CommandXboxController controller;
+  SlewRateLimiter smoothMove = new SlewRateLimiter( 0.5);
   
 
   public Drive(CANDriveSubsystem driveSystem, CommandXboxController driverController) {
@@ -24,6 +27,7 @@ public class Drive extends Command {
     addRequirements(driveSystem);
     driveSubsystem = driveSystem;
     controller = driverController;
+    //SlewRateLimiter smoothMove = new SlewRateLimiter( 0.5);
   }
 
   // Called when the command is initially scheduled.
@@ -38,18 +42,14 @@ public class Drive extends Command {
   // controllable.
   @Override
   public void execute() {
-    double invertSignLY = 1, invertSignRX = 1;
-    
-    controller.getLeftY();
-    controller.getRightX();
-    if(controller.getLeftY() < 0){
-      invertSignLY = -1;
+    driveSubsystem.driveArcade(filterDrive(-controller.getLeftY() * DRIVE_SCALING), filterDrive(-controller.getRightX() * ROTATION_SCALING));
+  }
+  public double filterDrive(double Input){
+    double fixSign = 1;
+    if(Input < 0){
+      fixSign = -1;
     }
-    if(controller.getRightX() < 0){
-      invertSignRX = -1;
-    }
-    driveSubsystem.driveArcade(-controller.getLeftY() * -controller.getLeftY() * DRIVE_SCALING * invertSignLY,
-     -controller.getRightX() * -controller.getRightX() * ROTATION_SCALING * invertSignRX);
+    return smoothMove.calculate(Input * Input * fixSign);
   }
 
   // Called once the command ends or is interrupted.
