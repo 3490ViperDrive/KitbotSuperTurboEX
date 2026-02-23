@@ -4,8 +4,10 @@
 
 package frc.robot.commands;
 
-import static frc.robot.Constants.OperatorConstants.*;
+import static frc.robot.Constants.OperatorConstants.DRIVE_SCALING;
+import static frc.robot.Constants.OperatorConstants.ROTATION_SCALING;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.CANDriveSubsystem;
@@ -15,6 +17,8 @@ public class Drive extends Command {
   /** Creates a new Drive. */
   CANDriveSubsystem driveSubsystem;
   CommandXboxController controller;
+  SlewRateLimiter smoothMove = new SlewRateLimiter(0.5);
+  //Tweak the SlewRateLimiter if needed for better movement transitioning
 
   public Drive(CANDriveSubsystem driveSystem, CommandXboxController driverController) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -34,8 +38,8 @@ public class Drive extends Command {
   // value). The X axis is scaled down so the rotation is more easily
   // controllable.
   @Override
-  public void execute() {
-    driveSubsystem.driveArcade(-controller.getLeftY() * DRIVE_SCALING, -controller.getRightX() * ROTATION_SCALING);
+  public void execute() { 
+    driveSubsystem.driveArcade(smoothMove.calculate(-controller.getLeftY() * DRIVE_SCALING), smoothMove.calculate(-controller.getRightX() * ROTATION_SCALING));
   }
 
   // Called once the command ends or is interrupted.
