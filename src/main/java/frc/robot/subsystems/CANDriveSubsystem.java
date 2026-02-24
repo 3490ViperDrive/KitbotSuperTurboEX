@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -15,11 +16,10 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Encoder;
+//import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.DriveConstants.*;
-import com.ctre.phoenix6.hardware.Pigeon2;
 
 public class CANDriveSubsystem extends SubsystemBase {
   public boolean isFlipped;
@@ -27,7 +27,7 @@ public class CANDriveSubsystem extends SubsystemBase {
   private final SparkMax leftFollower;
   private final SparkMax rightLeader;
   private final SparkMax rightFollower;
-  Pigeon2 m_gyro = new Pigeon2(0);
+  
   //Instantiate encoders later error present
   //Encoder m_leftEncoder = new Encoder();
   //Encoder m_rightEncoder = new Encoder();
@@ -44,6 +44,7 @@ public class CANDriveSubsystem extends SubsystemBase {
   public CANDriveSubsystem() {
     // create brushed motors for drive
     isFlipped = false;
+    Pigeon2 m_gyro = new Pigeon2(0);
     leftLeader = new SparkMax(LEFT_LEADER_ID, MotorType.kBrushed);
     leftFollower = new SparkMax(LEFT_FOLLOWER_ID, MotorType.kBrushed);
     rightLeader = new SparkMax(RIGHT_LEADER_ID, MotorType.kBrushed);

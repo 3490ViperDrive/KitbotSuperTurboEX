@@ -15,10 +15,13 @@ import frc.robot.subsystems.CANDriveSubsystem;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Drive extends Command {
   /** Creates a new Drive. */
+  double fixSign;
+  double joyLeftY, joyRightX;
+
   CANDriveSubsystem driveSubsystem;
   CommandXboxController controller;
-  SlewRateLimiter smoothMove = new SlewRateLimiter(0.5);
-  //Tweak the SlewRateLimiter if needed for better movement transitioning
+  SlewRateLimiter smoothMove = new SlewRateLimiter( 1);
+  
 
   public Drive(CANDriveSubsystem driveSystem, CommandXboxController driverController) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -38,8 +41,15 @@ public class Drive extends Command {
   // value). The X axis is scaled down so the rotation is more easily
   // controllable.
   @Override
-  public void execute() { 
-    driveSubsystem.driveArcade(smoothMove.calculate(-controller.getLeftY() * DRIVE_SCALING), smoothMove.calculate(-controller.getRightX() * ROTATION_SCALING));
+  public void execute() {
+    driveSubsystem.driveArcade(filterDrive(-controller.getLeftY()) * DRIVE_SCALING, filterDrive(-controller.getRightX()) * ROTATION_SCALING);
+  }
+  public double filterDrive(double Input){
+    double fixSign = 1;
+    if(Input < 0){
+      fixSign = -1;
+    }
+    return smoothMove.calculate(Input * Input * fixSign);
   }
 
   // Called once the command ends or is interrupted.
