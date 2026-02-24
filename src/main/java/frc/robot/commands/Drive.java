@@ -19,7 +19,7 @@ public class Drive extends Command {
 
   CANDriveSubsystem driveSubsystem;
   CommandXboxController controller;
-  SlewRateLimiter smoothMove = new SlewRateLimiter( 0.5);
+  SlewRateLimiter smoothMove = new SlewRateLimiter( 1);
   
 
   public Drive(CANDriveSubsystem driveSystem, CommandXboxController driverController) {
@@ -27,7 +27,6 @@ public class Drive extends Command {
     addRequirements(driveSystem);
     driveSubsystem = driveSystem;
     controller = driverController;
-    //SlewRateLimiter smoothMove = new SlewRateLimiter( 0.5);
   }
 
   // Called when the command is initially scheduled.
@@ -42,7 +41,7 @@ public class Drive extends Command {
   // controllable.
   @Override
   public void execute() {
-    driveSubsystem.driveArcade(filterDrive(-controller.getLeftY() * DRIVE_SCALING), filterDrive(-controller.getRightX() * ROTATION_SCALING));
+    driveSubsystem.driveArcade(filterDrive(-controller.getLeftY()) * DRIVE_SCALING, filterDrive(-controller.getRightX()) * ROTATION_SCALING);
   }
   public double filterDrive(double Input){
     double fixSign = 1;

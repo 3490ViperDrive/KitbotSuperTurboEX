@@ -4,7 +4,7 @@
 
 package frc.robot.commands;
 
-import static frc.robot.Constants.FuelConstants.MINIMUM_FLYWHEEL_VELOCITY;
+//import static frc.robot.Constants.FuelConstants.MINIMUM_FLYWHEEL_VELOCITY;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.FuelConstants;
