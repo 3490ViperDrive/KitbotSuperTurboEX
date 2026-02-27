@@ -20,7 +20,7 @@ public class Drive extends Command {
 
   CANDriveSubsystem driveSubsystem;
   CommandXboxController controller;
-  SlewRateLimiter smoothMove = new SlewRateLimiter( 1);
+  //SlewRateLimiter smoothMove = new SlewRateLimiter( 5);
   
 
   public Drive(CANDriveSubsystem driveSystem, CommandXboxController driverController) {
@@ -42,14 +42,22 @@ public class Drive extends Command {
   // controllable.
   @Override
   public void execute() {
-    driveSubsystem.driveArcade(filterDrive(-controller.getLeftY()) * DRIVE_SCALING, filterDrive(-controller.getRightX()) * ROTATION_SCALING);
+    // if(driveSubsystem.isFlipped == true){
+    //   driveSubsystem.driveArcade(squareInput(controller.getLeftY()) * -DRIVE_SCALING, squareInput(controller.getRightX()) * -ROTATION_SCALING);
+    // } else {
+    //   driveSubsystem.driveArcade(squareInput(controller.getLeftY()) * DRIVE_SCALING, squareInput(controller.getRightX()) * ROTATION_SCALING);
+    // }
+    driveSubsystem.driveArcade(squareInput(controller.getLeftY()) * DRIVE_SCALING, squareInput(controller.getRightX()) * ROTATION_SCALING);
   }
   public double filterDrive(double Input){
     double fixSign = 1;
     if(Input < 0){
       fixSign = -1;
     }
-    return smoothMove.calculate(Input * Input * fixSign);
+
+    //Squared inputs sent through a slew rate limiter
+    //return smoothMove.calculate(Input * Input * fixSign);
+    return 0;
   }
 
   // Called once the command ends or is interrupted.
@@ -62,5 +70,16 @@ public class Drive extends Command {
   @Override
   public boolean isFinished() {
     return false;
+  }
+
+  public double squareInput(double input){
+    double verboseVal;
+    int multiplier = 1;
+    if(input < 0){
+      //input negative, remember sign
+      multiplier = -1;
+    }
+    verboseVal = input * input;
+    return verboseVal * multiplier;
   }
 }
