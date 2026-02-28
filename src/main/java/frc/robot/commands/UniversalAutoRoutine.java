@@ -4,15 +4,17 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.CANClimbSubystem;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANFuelSubsystem;
-import static frc.robot.RobotContainer.*;
+//import static frc.robot.RobotContainer.*;
 
 public class UniversalAutoRoutine extends SequentialCommandGroup {
+    public String autoHolder1;
+    public String autoHolder2;
     public int cancel = 0;
     public UniversalAutoRoutine(CANDriveSubsystem driveSubsystem, CANFuelSubsystem fuelSubsystem,
             CANClimbSubystem climbSubsystem) {
             addCommands(new DriveToTarget());
         switch (autoHolder1) {
-            case "climbEnabled":
+            case "ClimbEnabled":
             addCommands(new ClimbSequence(climbSubsystem));
             case "shootEnabled":
             addCommands(new LaunchSequence(fuelSubsystem));
