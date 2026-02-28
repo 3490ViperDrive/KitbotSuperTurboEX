@@ -20,7 +20,7 @@ public class Drive extends Command {
 
   CANDriveSubsystem driveSubsystem;
   CommandXboxController controller;
-  //SlewRateLimiter smoothMove = new SlewRateLimiter( 5);
+  SlewRateLimiter smoothMove = new SlewRateLimiter( 4);
   
 
   public Drive(CANDriveSubsystem driveSystem, CommandXboxController driverController) {
@@ -47,8 +47,9 @@ public class Drive extends Command {
     // } else {
     //   driveSubsystem.driveArcade(squareInput(controller.getLeftY()) * DRIVE_SCALING, squareInput(controller.getRightX()) * ROTATION_SCALING);
     // }
-    driveSubsystem.driveArcade(squareInput(controller.getLeftY()) * DRIVE_SCALING, squareInput(controller.getRightX()) * ROTATION_SCALING);
+    driveSubsystem.driveArcade(smoothMove.calculate(squareInput(controller.getLeftY()) * DRIVE_SCALING), squareInput(controller.getRightX()) * ROTATION_SCALING);
   }
+
   public double filterDrive(double Input){
     double fixSign = 1;
     if(Input < 0){
