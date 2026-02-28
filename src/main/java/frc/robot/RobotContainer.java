@@ -76,7 +76,8 @@ public class RobotContainer {
     driverController.rightTrigger().whileTrue(new LaunchSequence(fuelSubsystem));
     // While the A button is held on the operator controller, eject fuel back out
     // the intake
-    driverController.rightBumper().onTrue(driveSubsystem.runOnce(()->{driveSubsystem.toggleFlip();}));
+    //driverController.rightBumper().onTrue(driveSubsystem.runOnce(()->{driveSubsystem.toggleFlip();}));
+    driverController.rightBumper().onTrue(driveSubsystem.runOnce(()-> driveSubsystem.toggleFlip()));
     driverController.a().whileTrue(new Eject(fuelSubsystem));
     
     //7hrs day
@@ -101,7 +102,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     //return autoChooser.getSelected();
-    return new LeftSideAuto(driveSubsystem, fuelSubsystem, climbSubsystem);
+    return new TestAuto(driveSubsystem, fuelSubsystem, climbSubsystem);
   }
 }
  

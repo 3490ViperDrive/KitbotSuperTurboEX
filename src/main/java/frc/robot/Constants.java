@@ -57,8 +57,10 @@ public final class Constants {
 
     // This value is multiplied by the joystick value when rotating the robot to
     // help avoid turning too fast and beign difficult to control
-    public static final double DRIVE_SCALING = .7;
-    public static final double ROTATION_SCALING = .8;
+    public static final double DRIVE_SCALING = .7; //orig .7
+    public static final double ROTATION_SCALING = .85; //orig .8
+    public static final double AUTONOMOUS_MOVESPEED = .725;
+    public static final double AUTONOMOUS_ROTATIONSPEED = 1;
   }
   public static final class AutoConstants{
   // This value is multiplied in the withTimeout agruemnet with another integer

@@ -91,10 +91,11 @@ public class CANDriveSubsystem extends SubsystemBase {
   }
 
   public void driveArcade(double xSpeed, double zRotation) {
-    if (isFlipped = false){
-      drive.arcadeDrive(xSpeed, zRotation);
-    } else {
+    if (isFlipped == false){
       drive.arcadeDrive(-xSpeed, -zRotation);
+    } else {
+      //TODO need to flip 
+      drive.arcadeDrive(xSpeed, zRotation);
     }
     
     //leftVelocity = wheelSpeeds.leftMetersPerSecond;
