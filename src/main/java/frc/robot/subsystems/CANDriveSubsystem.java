@@ -23,6 +23,7 @@ import static frc.robot.Constants.DriveConstants.*;
 
 public class CANDriveSubsystem extends SubsystemBase {
   public boolean isFlipped;
+  public boolean isSlewRateEnabled;
   private final SparkMax leftLeader;
   private final SparkMax leftFollower;
   private final SparkMax rightLeader;
@@ -44,6 +45,7 @@ public class CANDriveSubsystem extends SubsystemBase {
   public CANDriveSubsystem() {
     // create brushed motors for drive
     isFlipped = false;
+    isSlewRateEnabled = false;
     Pigeon2 m_gyro = new Pigeon2(0);
     leftLeader = new SparkMax(LEFT_LEADER_ID, MotorType.kBrushed);
     leftFollower = new SparkMax(LEFT_FOLLOWER_ID, MotorType.kBrushed);

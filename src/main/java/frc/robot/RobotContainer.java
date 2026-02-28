@@ -16,6 +16,7 @@ import static frc.robot.Constants.OperatorConstants.*;
 //import frc.robot.commands.Launch;
 //import frc.robot.commands.SpinUp;
 import frc.robot.commands.*;
+import frc.robot.commands.maxMiddleAuto;
 import frc.robot.subsystems.CANClimbSubystem;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANFuelSubsystem;
@@ -92,6 +93,8 @@ public class RobotContainer {
     driveSubsystem.setDefaultCommand(new Drive(driveSubsystem, driverController));
 
     fuelSubsystem.setDefaultCommand(fuelSubsystem.run(() -> fuelSubsystem.stop()));
+
+    
   }
 
   /**
@@ -102,7 +105,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     //return autoChooser.getSelected();
-    return new TestAuto(driveSubsystem, fuelSubsystem, climbSubsystem);
+    //return new TestAuto(driveSubsystem, fuelSubsystem, climbSubsystem);
+    return new maxMiddleAuto(driveSubsystem, fuelSubsystem, climbSubsystem);
   }
 }
  

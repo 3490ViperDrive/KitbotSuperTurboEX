@@ -10,6 +10,7 @@ import static frc.robot.Constants.OperatorConstants.ROTATION_SCALING;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.subsystems.CANDriveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -42,11 +43,6 @@ public class Drive extends Command {
   // controllable.
   @Override
   public void execute() {
-    // if(driveSubsystem.isFlipped == true){
-    //   driveSubsystem.driveArcade(squareInput(controller.getLeftY()) * -DRIVE_SCALING, squareInput(controller.getRightX()) * -ROTATION_SCALING);
-    // } else {
-    //   driveSubsystem.driveArcade(squareInput(controller.getLeftY()) * DRIVE_SCALING, squareInput(controller.getRightX()) * ROTATION_SCALING);
-    // }
     driveSubsystem.driveArcade(smoothMove.calculate(squareInput(controller.getLeftY()) * DRIVE_SCALING), squareInput(controller.getRightX()) * ROTATION_SCALING);
   }
 
