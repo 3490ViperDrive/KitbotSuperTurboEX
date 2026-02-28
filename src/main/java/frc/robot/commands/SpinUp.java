@@ -20,6 +20,10 @@ public class SpinUp extends Command {
     this.fuelSubsystem = fuelSystem;
   }
 
+  public SpinUp() {
+    //TODO Auto-generated constructor stub
+  }
+
   // Called when the command is initially scheduled. Set the rollers to the
   // appropriate values for intaking
   @Override
