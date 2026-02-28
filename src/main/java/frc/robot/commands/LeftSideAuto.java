@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import static frc.robot.Constants.AutoConstants.BASE_TIME;
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.CANClimbSubystem;
 import frc.robot.subsystems.CANDriveSubsystem;
@@ -15,13 +17,13 @@ public class LeftSideAuto extends SequentialCommandGroup{
             //new AutoDrive(driveSubsystem, 1, 0.3).withTimeout(1), //Drive forward and turn slightly
             //new LaunchSequence(fuelSubsystem).withTimeout(3), //Shoot for 3 seconds
             //new AutoDrive(driveSubsystem, -1, -0.3 ) //Go back
-            new AutoDrive(driveSubsystem, 0, 0.25).withTimeout(0.5), //Rotates robot for 0.5 seconds
-           new AutoDrive(driveSubsystem, 1, 0).withTimeout(2), //moves robot for 2 seconds
-           new LaunchSequence(fuelSubsystem).withTimeout(4), //shoots fuel for 4 seconds
-           new AutoDrive(driveSubsystem, 0, 0.75).withTimeout(.5), //rotates robot for 0.5 seconds
-           new AutoDrive(driveSubsystem, 1, 0).withTimeout(2), // moves robot for 2 seconds
+            new AutoDrive(driveSubsystem, 0, 0.25).withTimeout(BASE_TIME * 0.5), //Rotates robot for 0.5 seconds
+           new AutoDrive(driveSubsystem, 1, 0).withTimeout(BASE_TIME * 2), //moves robot for 2 seconds
+           new LaunchSequence(fuelSubsystem).withTimeout(BASE_TIME * 4), //shoots fuel for 4 seconds
+           new AutoDrive(driveSubsystem, 0, 0.75).withTimeout(BASE_TIME * 0.5), //rotates robot for 0.5 seconds
+           new AutoDrive(driveSubsystem, 1, 0).withTimeout(BASE_TIME * 2), // moves robot for 2 seconds
            new ToggleClimber(climbSubsystem), // lifts climber up
-           new AutoDrive(driveSubsystem, 1, 0).withTimeout(1), // moves robot towards tower for 1 second
+           new AutoDrive(driveSubsystem, 1, 0).withTimeout(BASE_TIME), // moves robot towards tower for 1 second
            new RetractSolenoid(climbSubsystem) // pull robot up onto tower by lowering climber down
         );
     }

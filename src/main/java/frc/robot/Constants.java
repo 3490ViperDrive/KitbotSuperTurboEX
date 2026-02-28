@@ -62,4 +62,8 @@ public final class Constants {
     public static final double AUTONOMOUS_MOVESPEED = .725;
     public static final double AUTONOMOUS_ROTATIONSPEED = 1;
   }
+  public static final class AutoConstants{
+  // This value is multiplied in the withTimeout agruemnet with another integer
+    public static final double BASE_TIME = 1.0;
+  }
 }
