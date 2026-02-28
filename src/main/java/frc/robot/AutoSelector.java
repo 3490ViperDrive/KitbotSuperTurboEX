@@ -3,7 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DashboardAuto {
+public class AutoSelector {
 
     private static final String Default = "Default";
     private static final String AutoOne = "AutoOne";
@@ -13,7 +13,7 @@ public class DashboardAuto {
     private String m_autoselect;
     private final SendableChooser<String> m_chooser = new SendableChooser<String>();
 
-public DashboardAuto() {
+public AutoSelector() {
     m_chooser.setDefaultOption("Test", Default);
     m_chooser.addOption("AutoOne", AutoOne);
     m_chooser.addOption("AutoTwo", AutoTwo);
