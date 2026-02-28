@@ -102,7 +102,13 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     //return autoChooser.getSelected();
-    return new TestAuto(driveSubsystem, fuelSubsystem, climbSubsystem);
+    return new Bruh(driveSubsystem);
+  }
+
+  public void ensureDTFlip(){
+    if(driveSubsystem.isFlipped == true){
+      driveSubsystem.toggleFlip();
+    }
   }
 }
  

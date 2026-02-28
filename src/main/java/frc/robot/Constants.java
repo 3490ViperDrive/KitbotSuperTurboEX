@@ -60,7 +60,7 @@ public final class Constants {
     public static final double DRIVE_SCALING = .7; //orig .7
     public static final double ROTATION_SCALING = .85; //orig .8
     public static final double AUTONOMOUS_MOVESPEED = .725;
-    public static final double AUTONOMOUS_ROTATIONSPEED = 1;
+    public static final double AUTONOMOUS_ROTATIONSPEED = 0.675;
   }
   public static final class AutoConstants{
   // This value is multiplied in the withTimeout agruemnet with another integer
