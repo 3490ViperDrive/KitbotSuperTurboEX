@@ -15,7 +15,7 @@ public class RightAutoOutpost extends SequentialCommandGroup{
             new AutoDrive(driveSubsystem,0,0.675).withTimeout(BASE_TIME* 1),
             new AutoDrive(driveSubsystem,-1,0).withTimeout(BASE_TIME* 0.8),
             new AutoDrive(driveSubsystem,0,0).withTimeout(BASE_TIME* 3),
-            new AutoDrive(driveSubsystem,1,0).withTimeout(BASE_TIME* 0.4),
+            new AutoDrive(driveSubsystem,1,0).withTimeout(BASE_TIME* 0.8),
             new AutoDrive(driveSubsystem,0,0.675).withTimeout(BASE_TIME* 0.5),
             new LaunchSequence(fuelSubsystem).withTimeout(BASE_TIME* 8));
     }
