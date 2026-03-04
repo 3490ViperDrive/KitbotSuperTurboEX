@@ -1,7 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,11 +15,9 @@ import static frc.robot.Constants.OperatorConstants.*;
 //import frc.robot.commands.Launch;
 //import frc.robot.commands.SpinUp;
 import frc.robot.commands.*;
-import frc.robot.commands.maxMiddleAuto;
 import frc.robot.subsystems.CANClimbSubystem;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANFuelSubsystem;
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a "declarative" paradigm, very little robot logic should
@@ -41,7 +38,6 @@ public class RobotContainer {
 
   // The autonomous chooser
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -49,10 +45,15 @@ public class RobotContainer {
     SmartDashboard.putBoolean("Climb", false);
     SmartDashboard.putBoolean("Shoot", false);
     configureBindings();
-
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
-    // autoChooser.addOption
+    autoChooser.addOption("middleAutoWithClimb", new middleAutoClimb(driveSubsystem, fuelSubsystem, climbSubsystem));
+    autoChooser.addOption("middleNoClimbAuto", new middleNoClimbAuto(driveSubsystem, fuelSubsystem, climbSubsystem));
+    autoChooser.addOption("middleAutoWithClimb", new LeftAutoNoClimb(driveSubsystem, fuelSubsystem, climbSubsystem));
+    autoChooser.addOption("middleAutoWithClimb", new LeftSideAuto(driveSubsystem, fuelSubsystem, climbSubsystem));
+    autoChooser.addOption("middleAutoWithClimb", new RightAutoNoClimb(driveSubsystem, fuelSubsystem, climbSubsystem));
+    autoChooser.addOption("middleAutoWithClimb", new RightSideAuto(driveSubsystem, fuelSubsystem, climbSubsystem));
+
     autoChooser.setDefaultOption("Autonomous", new ExampleAuto(driveSubsystem, fuelSubsystem));
   }
 
@@ -70,10 +71,10 @@ public class RobotContainer {
   private void configureBindings() {
 
     // While the left bumper on operator controller is held, intake Fuel
-    driverController.leftBumper().whileTrue(new Intake(fuelSubsystem));
+    driverController.leftTrigger().whileTrue(new Intake(fuelSubsystem));
     // While the right bumper on the operator controller is held, spin up for 1
     // second, then launch fuel. When the button is released, stop.
-    driverController.leftTrigger().whileTrue(new SpinUp(fuelSubsystem));
+    //driverController.leftTrigger().whileTrue(new SpinUp(fuelSubsystem));
     driverController.rightTrigger().whileTrue(new LaunchSequence(fuelSubsystem));
     // While the A button is held on the operator controller, eject fuel back out
     // the intake
@@ -94,9 +95,7 @@ public class RobotContainer {
 
     fuelSubsystem.setDefaultCommand(fuelSubsystem.run(() -> fuelSubsystem.stop()));
 
-    
   }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -104,9 +103,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    //return autoChooser.getSelected();
-    //return new TestAuto(driveSubsystem, fuelSubsystem, climbSubsystem);
-    return new maxMiddleAuto(driveSubsystem, fuelSubsystem, climbSubsystem);
+    return autoChooser.getSelected();
+    //RobotModeTriggers.teleop().onTrue(driveSubsystem.run(()-> driveSubsystem.configureBrakes()));//flip motor brake modes)
   }
 }
  

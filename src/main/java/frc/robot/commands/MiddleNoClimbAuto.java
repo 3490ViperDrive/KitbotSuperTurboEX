@@ -8,12 +8,12 @@ import frc.robot.subsystems.CANFuelSubsystem;
 
 import static frc.robot.Constants.AutoConstants.BASE_TIME;
 
-public class MiddleNoClimbAuto extends SequentialCommandGroup{
+public class middleNoClimbAuto extends SequentialCommandGroup{
 
 
 
 
-    public MiddleNoClimbAuto(CANDriveSubsystem driveSubsystem, CANFuelSubsystem fuelSubsystem, CANClimbSubystem climbSubsystem){
+    public middleNoClimbAuto(CANDriveSubsystem driveSubsystem, CANFuelSubsystem fuelSubsystem, CANClimbSubystem climbSubsystem){
         addCommands(
           new AutoDrive(driveSubsystem, 1, 0).withTimeout(BASE_TIME * 2), // moves robot for 2 seconds
           new LaunchSequence(fuelSubsystem).withTimeout(BASE_TIME * 4), // shoots fuel for 4 seconds

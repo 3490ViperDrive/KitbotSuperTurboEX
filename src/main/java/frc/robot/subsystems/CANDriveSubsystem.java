@@ -3,23 +3,25 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-
+import java.util.ArrayList;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
-//import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.DriveConstants.*;
+import java.io.ObjectInputFilter.Config;
 
 public class CANDriveSubsystem extends SubsystemBase {
   public boolean isFlipped;
@@ -28,7 +30,7 @@ public class CANDriveSubsystem extends SubsystemBase {
   private final SparkMax leftFollower;
   private final SparkMax rightLeader;
   private final SparkMax rightFollower;
-  
+  ArrayList<SparkMax> motorControllers = new ArrayList<SparkMax>();
   //Instantiate encoders later error present
   //Encoder m_leftEncoder = new Encoder();
   //Encoder m_rightEncoder = new Encoder();
@@ -39,6 +41,7 @@ public class CANDriveSubsystem extends SubsystemBase {
   DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
   double leftVelocity;
   double rightVelocity;
+
   //Encoders must be defined for odometry object
   //DifferentialDriveOdometry m_odemetry = new DifferentialDriveOdometry(m_gyro.getRotation2d(), m_leftEncoder.getDistance(), m_rightEncoder.getDistance(), 13.5, new Rotation2d());
 
@@ -52,9 +55,12 @@ public class CANDriveSubsystem extends SubsystemBase {
     rightLeader = new SparkMax(RIGHT_LEADER_ID, MotorType.kBrushed);
     rightFollower = new SparkMax(RIGHT_FOLLOWER_ID, MotorType.kBrushed);
 
+    motorControllers.add(leftLeader);
+    motorControllers.add(leftFollower);
+    motorControllers.add(rightLeader);
+    motorControllers.add(rightFollower);
     // set up differential drive class
     drive = new DifferentialDrive(leftLeader, rightLeader);
-
     // Set can timeout. Because this project only sets parameters once on
     // construction, the timeout can be long without blocking robot operation. Code
     // which sets or gets parameters during operation may need a shorter timeout.
@@ -97,7 +103,7 @@ public class CANDriveSubsystem extends SubsystemBase {
       drive.arcadeDrive(-xSpeed, -zRotation);
     } else {
       //TODO need to flip 
-      drive.arcadeDrive(xSpeed, zRotation);
+      drive.arcadeDrive(xSpeed, -zRotation);
     }
     
     //leftVelocity = wheelSpeeds.leftMetersPerSecond;
@@ -107,8 +113,18 @@ public class CANDriveSubsystem extends SubsystemBase {
     //TODO set wheels to those wheelspeeds
 
   }
+
   public void toggleFlip(){
     isFlipped = !isFlipped;
+  }
+
+  public void configureBrakes(){
+    //configure the brake mode of the sparkmaxes such that they're in brake/coast.
+    //rightFollower.configure.setIdleMode(IdleMode.kCoast);
+        
+    //(leftLeader, leftFollower, rightLeader, rightFollower)
+    //configBrake.setIdleMode(IdleMode.kBrake);
+    //config.setIdleMode(IdleMode.kBrake);
   }
 
 }
