@@ -2,6 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -44,6 +45,9 @@ public class RobotContainer {
   public RobotContainer() {
     SmartDashboard.putBoolean("Climb", false);
     SmartDashboard.putBoolean("Shoot", false);
+    SmartDashboard.putData(autoChooser);
+    final Field2d field = new Field2d();
+    SmartDashboard.putData("field", field);
     configureBindings();
     // Set the options to show up in the Dashboard for selecting auto modes. If you
     // add additional auto modes you can add additional lines here with
@@ -103,7 +107,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return autoChooser.getSelected();
+    //return autoChooser.getSelected();
+    return new middleAutoClimb(driveSubsystem, fuelSubsystem, climbSubsystem);
     //RobotModeTriggers.teleop().onTrue(driveSubsystem.run(()-> driveSubsystem.configureBrakes()));//flip motor brake modes)
   }
 }
